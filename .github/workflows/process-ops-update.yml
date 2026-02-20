@@ -26,6 +26,7 @@ jobs:
           node -e "const fs=require('fs');const body=process.env.ISSUE_BODY||'';const m=body.match(/```json\\s*([\\s\\S]*?)```/i);const content=m?m[1].trim():body.trim();JSON.parse(content);fs.writeFileSync('payload.json',content+'\\n');"
       - run: node scripts/apply-ops-update.mjs payload.json
       - run: npm run validate:data
+      - run: npm run sync:pages-data
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         id: cpr

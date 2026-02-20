@@ -1,0 +1,20 @@
+[
+  {
+    "id": "DEC-001",
+    "campaignId": "CMP-002",
+    "severity": "red",
+    "decisionText": "Move CMP-002 to daily triage until interview and review bottlenecks clear.",
+    "owner": "Head of Client Services",
+    "dueDate": "2026-02-21",
+    "createdAt": "2026-02-20"
+  },
+  {
+    "id": "DEC-002",
+    "campaignId": "CMP-001",
+    "severity": "amber",
+    "decisionText": "Assign backup reviewer and lock interview alternatives for next 72 hours.",
+    "owner": "Production Editor",
+    "dueDate": "2026-02-22",
+    "createdAt": "2026-02-20"
+  }
+]

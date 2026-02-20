@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "validate:data": "node scripts/validate-data.mjs",
-    "build:digest": "node scripts/build-digest.mjs"
+    "build:digest": "node scripts/build-digest.mjs",
+    "sync:pages-data": "node scripts/sync-pages-data.mjs"
   },
   "dependencies": {
     "ajv": "^8.17.1",

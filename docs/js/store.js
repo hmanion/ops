@@ -1,10 +1,36 @@
-const DATA_BASE = "../data";
+const DATA_BASES = ["./data", "../data"];
+
+async function fetchJsonFromCandidates(fileName) {
+  for (const base of DATA_BASES) {
+    try {
+      const res = await fetch(`${base}/${fileName}`);
+      if (!res.ok) continue;
+      return res.json();
+    } catch {
+      // Try the next candidate path.
+    }
+  }
+  throw new Error(`Unable to load ${fileName} from candidate data paths.`);
+}
+
+async function fetchTextFromCandidates(fileName) {
+  for (const base of DATA_BASES) {
+    try {
+      const res = await fetch(`${base}/${fileName}`);
+      if (!res.ok) continue;
+      return res.text();
+    } catch {
+      // Try the next candidate path.
+    }
+  }
+  throw new Error(`Unable to load ${fileName} from candidate data paths.`);
+}
 
 export async function loadData() {
   const [campaigns, decisions, eventsRaw] = await Promise.all([
-    fetch(`${DATA_BASE}/campaigns.json`).then((r) => r.json()),
-    fetch(`${DATA_BASE}/decisions.json`).then((r) => r.json()),
-    fetch(`${DATA_BASE}/events.ndjson`).then((r) => r.text())
+    fetchJsonFromCandidates("campaigns.json"),
+    fetchJsonFromCandidates("decisions.json"),
+    fetchTextFromCandidates("events.ndjson")
   ]);
 
   const events = eventsRaw

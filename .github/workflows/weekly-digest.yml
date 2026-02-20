@@ -18,6 +18,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - run: npm run sync:pages-data
       - run: npm run build:digest
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
