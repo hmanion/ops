@@ -9,6 +9,17 @@ const app = document.getElementById("app");
 const repoInput = document.getElementById("repoSlug");
 let state = { view: "tower", selectedCampaignId: null, campaigns: [], decisions: [], events: [] };
 
+function renderFatalError(error) {
+  const msg = error instanceof Error ? error.message : String(error);
+  app.innerHTML = `
+    <section class="alert">
+      <strong>Data load failed.</strong>
+      <div>Check that <code>docs/data/*.json</code> and <code>docs/data/events.ndjson</code> are present in the deployed artifact.</div>
+      <pre>${msg}</pre>
+    </section>
+  `;
+}
+
 repoInput.value = loadRepoSlug();
 repoInput.addEventListener("change", () => saveRepoSlug(repoInput.value.trim()));
 
@@ -55,9 +66,13 @@ function draw() {
 }
 
 async function init() {
-  const raw = await loadData();
-  state = { ...state, ...raw, campaigns: evaluateAll(raw.campaigns) };
-  draw();
+  try {
+    const raw = await loadData();
+    state = { ...state, ...raw, campaigns: evaluateAll(raw.campaigns) };
+    draw();
+  } catch (error) {
+    renderFatalError(error);
+  }
 }
 
 init();

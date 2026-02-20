@@ -53,6 +53,18 @@ main { padding: 1rem; }
   padding: 1rem;
   margin-bottom: 1rem;
 }
+.alert {
+  border: 1px solid #d9a2a2;
+  background: #fff1f1;
+  color: #7d1f1f;
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+.alert pre {
+  margin: 0.5rem 0 0;
+  white-space: pre-wrap;
+}
 .grid {
   display: grid;
   gap: 1rem;

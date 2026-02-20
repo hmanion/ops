@@ -14,13 +14,14 @@ Static control tower web app for campaign risk, gates, escalation, and decision 
 ```bash
 npm ci
 npm run validate:data
+npm run test:rules
 npm run build:digest
 ```
 
-Serve locally with any static server from repo root:
+Run local dev server:
 
 ```bash
-python3 -m http.server 8080
+npm run dev
 ```
 
 Then open `http://localhost:8080/docs/`.
