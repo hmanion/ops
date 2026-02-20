@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RiskEvent",
+  "type": "object",
+  "required": ["timestamp", "campaignId", "triggerCode", "oldStatus", "newStatus", "slaDeadline"],
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "campaignId": { "type": "string", "minLength": 1 },
+    "triggerCode": { "type": "string", "minLength": 1 },
+    "oldStatus": { "enum": ["green", "amber", "red", "critical"] },
+    "newStatus": { "enum": ["green", "amber", "red", "critical"] },
+    "slaDeadline": { "type": "string", "format": "date-time" }
+  }
+}

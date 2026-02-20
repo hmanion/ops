@@ -1,0 +1,29 @@
+name: Weekly Digest
+
+on:
+  schedule:
+    - cron: "15 20 * * 4"
+  workflow_dispatch:
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build:digest
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: weekly portfolio digest"
+          title: "chore: weekly portfolio digest"
+          body: "Automated weekly digest refresh from data/rules."
+          branch: codex/weekly-digest
+          delete-branch: true

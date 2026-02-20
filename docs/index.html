@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ops Control Tower</title>
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Ops Control Tower</h1>
+      <div class="repo-config">
+        <label for="repoSlug">Repo (owner/name)</label>
+        <input id="repoSlug" placeholder="owner/repo" />
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button data-view="tower" class="active">Control Tower</button>
+      <button data-view="detail">Campaign Detail</button>
+      <button data-view="decisions">Decision Log</button>
+      <button data-view="digest">Digest</button>
+    </nav>
+
+    <main id="app"></main>
+
+    <footer>
+      <small>System of record: git-backed JSON in <code>/data</code></small>
+    </footer>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

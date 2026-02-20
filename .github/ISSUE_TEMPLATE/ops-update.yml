@@ -1,0 +1,26 @@
+name: Ops Update
+about: Submit a structured update payload for campaign, decision, or event changes.
+labels: [ops-update]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit JSON payload in the exact shape expected by scripts/apply-ops-update.mjs.
+  - type: textarea
+    id: payload
+    attributes:
+      label: JSON Payload
+      description: "Valid types: campaign_update, decision_add, event_add"
+      placeholder: |
+        {
+          "type": "decision_add",
+          "id": "DEC-003",
+          "campaignId": "CMP-001",
+          "severity": "amber",
+          "decisionText": "Decision details",
+          "owner": "Head of Client Services",
+          "dueDate": "2026-02-22",
+          "createdAt": "2026-02-20"
+        }
+    validations:
+      required: true

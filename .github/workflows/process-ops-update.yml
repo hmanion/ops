@@ -1,0 +1,50 @@
+name: Process Ops Update
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  process:
+    if: contains(github.event.issue.labels.*.name, 'ops-update')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Extract JSON payload from issue body
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          node -e "const fs=require('fs');const body=process.env.ISSUE_BODY||'';const m=body.match(/```json\\s*([\\s\\S]*?)```/i);const content=m?m[1].trim():body.trim();JSON.parse(content);fs.writeFileSync('payload.json',content+'\\n');"
+      - run: node scripts/apply-ops-update.mjs payload.json
+      - run: npm run validate:data
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        id: cpr
+        with:
+          commit-message: "chore: apply ops update from issue #${{ github.event.issue.number }}"
+          title: "chore: apply ops update from issue #${{ github.event.issue.number }}"
+          body: "Automated application of structured ops update payload from issue #${{ github.event.issue.number }}."
+          branch: codex/ops-update-${{ github.event.issue.number }}
+          delete-branch: true
+      - name: Comment on issue
+        if: steps.cpr.outputs.pull-request-url != ''
+        uses: actions/github-script@v7
+        env:
+          PR_URL: ${{ steps.cpr.outputs.pull-request-url }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Opened PR: ${process.env.PR_URL}`
+            })
